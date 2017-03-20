@@ -47,7 +47,11 @@ rm -f /restore.sh
 cat <<EOF >> /restore.sh
 #!/bin/bash
 echo "=> Restore database from \$1"
-if mongorestore --host ${MONGODB_HOST} --port ${MONGODB_PORT} ${USER_STR}${PASS_STR} \$1; then
+name="\$1"
+shift 1
+echo "=> Restore database from \$name"
+echo \$*
+if mongorestore --objcheck --host ${MONGODB_HOST} --port ${MONGODB_PORT} ${USER_STR}${PASS_STR} \$* /backup/\$name; then
     echo "   Restore succeeded"
 else
     echo "   Restore failed"
