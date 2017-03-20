@@ -59,6 +59,7 @@ fi
 echo "=> Done"
 EOF
 chmod +x /restore.sh
+ln -s /restore.sh /usr/bin/restore
 
 touch /mongo_backup.log
 tail -F /mongo_backup.log &
