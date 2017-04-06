@@ -75,6 +75,11 @@ if [ -n "${INIT_BACKUP}" ]; then
     /backup.sh
 fi
 
+if [ -n "${INIT_RESTORE}" ]; then
+    echo "=> Restore store from lastest backup on startup"
+    /restore.sh
+fi
+
 echo "${CRON_TIME} /backup.sh >> /mongo_backup.log 2>&1" > /crontab.conf
 crontab  /crontab.conf
 echo "=> Running cron job"

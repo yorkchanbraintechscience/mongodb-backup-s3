@@ -59,6 +59,8 @@ docker run -d \
 
 `INIT_BACKUP` - if set, create a backup when the container launched
 
+`INIT_RESTORE` - if set, restore from latest when container is launched
+
 ## Restore from a backup
 
 To see the list of backups, you can run:
