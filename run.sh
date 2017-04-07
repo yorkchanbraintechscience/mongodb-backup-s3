@@ -15,12 +15,13 @@ S3PATH="s3://$BUCKET/$BACKUP_FOLDER"
 [[ ( -n "${MONGODB_PASS}" ) ]] && PASS_STR=" --password ${MONGODB_PASS}"
 [[ ( -n "${MONGODB_DB}" ) ]] && DB_STR=" --db ${MONGODB_DB}"
 
+# Export AWS Credentials into env file for cron job
+printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' | grep -E "^export AWS" > /root/project_env.sh
+
 echo "=> Creating backup script"
 rm -f /backup.sh
 cat <<EOF >> /backup.sh
 #!/bin/bash
-AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 TIMESTAMP=\`/bin/date +"%Y%m%dT%H%M%S"\`
 BACKUP_NAME=\${TIMESTAMP}.dump.gz
 S3BACKUP=${S3PATH}\${BACKUP_NAME}
@@ -40,8 +41,6 @@ echo "=> Creating restore script"
 rm -f /restore.sh
 cat <<EOF >> /restore.sh
 #!/bin/bash
-AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 if [[( -n "\${1}" )]];then
     RESTORE_ME=\${1}.dump.gz
 else
@@ -63,8 +62,6 @@ echo "=> Creating list script"
 rm -f /listbackups.sh
 cat <<EOF >> /listbackups.sh
 #!/bin/bash
-AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 aws s3 ls ${S3PATH}
 EOF
 chmod +x /listbackups.sh
@@ -87,7 +84,7 @@ if [ -n "${INIT_RESTORE}" ]; then
 fi
 
 if [ -z "${DISABLE_CRON}" ]; then
-    echo "${CRON_TIME} /backup.sh >> /mongo_backup.log 2>&1" > /crontab.conf
+    echo "${CRON_TIME} . /root/project_env.sh; /backup.sh >> /mongo_backup.log 2>&1" > /crontab.conf
     crontab  /crontab.conf
     echo "=> Running cron job"
     cron && tail -f /mongo_backup.log
