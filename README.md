@@ -61,6 +61,8 @@ docker run -d \
 
 `INIT_RESTORE` - if set, restore from latest when container is launched
 
+`DISABLE_CRON` - if set, it will skip setting up automated backups. good for when you want to use this container to seed a dev environment. 
+
 ## Restore from a backup
 
 To see the list of backups, you can run:
