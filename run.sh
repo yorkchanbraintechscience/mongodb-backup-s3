@@ -19,6 +19,8 @@ echo "=> Creating backup script"
 rm -f /backup.sh
 cat <<EOF >> /backup.sh
 #!/bin/bash
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 TIMESTAMP=\`/bin/date +"%Y%m%dT%H%M%S"\`
 BACKUP_NAME=\${TIMESTAMP}.dump.gz
 S3BACKUP=${S3PATH}\${BACKUP_NAME}
@@ -38,6 +40,8 @@ echo "=> Creating restore script"
 rm -f /restore.sh
 cat <<EOF >> /restore.sh
 #!/bin/bash
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 if [[( -n "\${1}" )]];then
     RESTORE_ME=\${1}.dump.gz
 else
@@ -59,6 +63,8 @@ echo "=> Creating list script"
 rm -f /listbackups.sh
 cat <<EOF >> /listbackups.sh
 #!/bin/bash
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 aws s3 ls ${S3PATH}
 EOF
 chmod +x /listbackups.sh
