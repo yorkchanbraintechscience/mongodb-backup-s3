@@ -84,5 +84,5 @@ if [ -z "${DISABLE_CRON}" ]; then
     echo "${CRON_TIME} /backup.sh >> /mongo_backup.log 2>&1" > /crontab.conf
     crontab  /crontab.conf
     echo "=> Running cron job"
-    exec cron && tail -f /mongo_backup.log
+    cron && tail -f /mongo_backup.log
 fi
