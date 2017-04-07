@@ -29,6 +29,37 @@ docker run -d \
   halvves/mongodb-backup-s3
 ```
 
+Add to a docker-compose.yml to enhance your robotic army:
+
+For automated backups
+```
+mongodbbackup:
+  image: 'halvves/mongodb-backup-s3:latest'
+  links:
+    - mongodb
+  environment:
+    - AWS_ACCESS_KEY_ID=myaccesskeyid
+    - AWS_SECRET_ACCESS_KEY=mysecretaccesskey
+    - BUCKET=my-s3-bucket
+    - BACKUP_FOLDER=prod/db/
+  restart: always
+```
+
+Or use `INIT_RESTORE` with `DISABLE_CRON` for seeding/restoring/starting a db (great for a fresh instance or a dev machine)
+```
+mongodbbackup:
+  image: 'halvves/mongodb-backup-s3:latest'
+  links:
+    - mongodb
+  environment:
+    - AWS_ACCESS_KEY_ID=myaccesskeyid
+    - AWS_SECRET_ACCESS_KEY=mysecretaccesskey
+    - BUCKET=my-s3-bucket
+    - BACKUP_FOLDER=prod/db/
+    - INIT_RESTORE=true
+    - DISABLE_CRON=true
+```
+
 ## Parameters
 
 `AWS_ACCESS_KEY_ID` - your aws access key id (for your s3 bucket)
@@ -61,7 +92,7 @@ docker run -d \
 
 `INIT_RESTORE` - if set, restore from latest when container is launched
 
-`DISABLE_CRON` - if set, it will skip setting up automated backups. good for when you want to use this container to seed a dev environment. 
+`DISABLE_CRON` - if set, it will skip setting up automated backups. good for when you want to use this container to seed a dev environment.
 
 ## Restore from a backup
 
