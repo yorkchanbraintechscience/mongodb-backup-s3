@@ -82,7 +82,7 @@ mongodbbackup:
 
 `EXTRA_OPTS` - any extra options to pass to mongodump command
 
-`CRON_TIME` - the interval of cron job to run mongodump. `3 0 * * *` by default, which is every day at 03:00hrs.
+`CRON_TIME` - the interval of cron job to run mongodump. `0 3 * * *` by default, which is every day at 03:00hrs.
 
 `TZ` - timezone. default: `US/Eastern`
 
