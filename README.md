@@ -2,6 +2,16 @@
 
 This image runs mongodump to backup data using cronjob to an s3 bucket
 
+## Forked from [halvves/mongodb-backup-s3](https://github.com/halvves/mongodb-backup-s3)
+
+Added support for AWS S3 v4 authorization mechanism for those who are experiencing error:
+
+```
+A client error (InvalidRequest) occurred when calling the PutObject operation: The authorization mechanism you have provided is not supported. Please use AWS4-HMAC-SHA256.
+```
+
+Play well with this docker [nginx-letsencrypt-mongo-portainer] setup
+
 ## Usage:
 
 ```
@@ -13,10 +23,10 @@ docker run -d \
   --env MONGODB_PORT=27017 \
   --env MONGODB_USER=admin \
   --env MONGODB_PASS=password \
-  halvves/mongodb-backup-s3
+  deenoize/mongodb-backup-s3
 ```
 
-If you link `halvves/mongodb-backup-s3` to a mongodb container with an alias named mongodb, this image will try to auto load the `host`, `port`, `user`, `pass` if possible. Like this:
+If you link `deenoize/mongodb-backup-s3` to a mongodb container with an alias named mongodb, this image will try to auto load the `host`, `port`, `user`, `pass` if possible. Like this:
 
 ```
 docker run -d \
@@ -26,7 +36,7 @@ docker run -d \
   --env BACKUP_FOLDER=a/sub/folder/path/ \
   --env INIT_BACKUP=true \
   --link my_mongo_db:mongodb \
-  halvves/mongodb-backup-s3
+  deenoize/mongodb-backup-s3
 ```
 
 Add to a docker-compose.yml to enhance your robotic army:
@@ -34,7 +44,7 @@ Add to a docker-compose.yml to enhance your robotic army:
 For automated backups
 ```
 mongodbbackup:
-  image: 'halvves/mongodb-backup-s3:latest'
+  image: 'deenoize/mongodb-backup-s3:latest'
   links:
     - mongodb
   environment:
@@ -48,7 +58,7 @@ mongodbbackup:
 Or use `INIT_RESTORE` with `DISABLE_CRON` for seeding/restoring/starting a db (great for a fresh instance or a dev machine)
 ```
 mongodbbackup:
-  image: 'halvves/mongodb-backup-s3:latest'
+  image: 'deenoize/mongodb-backup-s3:latest'
   links:
     - mongodb
   environment:
@@ -114,4 +124,4 @@ docker exec mongodb-backup-s3 /restore.sh
 
 ## Acknowledgements
 
-  * forked from [futurist](https://github.com/futurist)'s fork of [tutumcloud/mongodb-backup](https://github.com/tutumcloud/mongodb-backup)
+  * forked from [halvves/mongodb-backup-s3](https://github.com/halvves/mongodb-backup-s3) fork of [futurist](https://github.com/futurist)'s fork of [tutumcloud/mongodb-backup](https://github.com/tutumcloud/mongodb-backup)
