@@ -10,7 +10,7 @@ Added support for AWS S3 v4 authorization mechanism for those who are experienci
 A client error (InvalidRequest) occurred when calling the PutObject operation: The authorization mechanism you have provided is not supported. Please use AWS4-HMAC-SHA256.
 ```
 
-Play well with this docker [nginx-letsencrypt-mongo-portainer] setup
+Play well with this docker [nginx-letsencrypt-mongo-portainer](https://github.com/deenoize/nginx-mongo-docker) setup
 
 ## Usage:
 
