@@ -39,7 +39,7 @@ docker run -d \
   deenoize/mongodb-backup-s3
 ```
 
-If your bucket in not standard region and you get `A client error (PermanentRedirect) occurred when calling the PutObject operation: The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint` use REGION_BUCKET var like this:
+If your bucket in not standard region and you get `A client error (PermanentRedirect) occurred when calling the PutObject operation: The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint` use BUCKET_REGION env var like this:
 
 ```
 docker run -d \
@@ -91,6 +91,8 @@ mongodbbackup:
 `AWS_SECRET_ACCESS_KEY`: - your aws secret access key (for your s3 bucket)
 
 `BUCKET`: - your s3 bucket
+
+`BUCKET_REGION`: - your s3 bucket' region (eg `us-east-2` for Ohio). Optional. Add if you get an error `A client error (PermanentRedirect)`
 
 `BACKUP_FOLDER`: - name of folder or path to put backups (eg `myapp/db_backups/`). defaults to root of bucket.
 
