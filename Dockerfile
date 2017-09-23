@@ -1,6 +1,11 @@
 FROM mongo
 
-RUN apt-get update && apt-get -y install cron curl && curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && unzip awscli-bundle.zip && sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+# Install Python and Cron
+RUN apt-get update && \
+    apt-get -y install python python-pip libyaml-dev python-dev cron
+
+# Install AWS CLI and schedule package
+RUN pip install pyyaml awscli --upgrade --user
 
 ENV CRON_TIME="0 3 * * *" \
   TZ=US/Eastern \
