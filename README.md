@@ -18,7 +18,7 @@ Play well with this docker [nginx-letsencrypt-mongo-portainer](https://github.co
 docker run -d \
   --env AWS_ACCESS_KEY_ID=awsaccesskeyid \
   --env AWS_SECRET_ACCESS_KEY=awssecretaccesskey \
-  --env BUCKET=s3bucket
+  --env BUCKET=mybucketname
   --env MONGODB_HOST=mongodb.host \
   --env MONGODB_PORT=27017 \
   --env MONGODB_USER=admin \
@@ -33,6 +33,20 @@ docker run -d \
   --env AWS_ACCESS_KEY_ID=myaccesskeyid \
   --env AWS_SECRET_ACCESS_KEY=mysecretaccesskey \
   --env BUCKET=mybucketname \
+  --env BACKUP_FOLDER=a/sub/folder/path/ \
+  --env INIT_BACKUP=true \
+  --link my_mongo_db:mongodb \
+  deenoize/mongodb-backup-s3
+```
+
+If your bucket in not standard region and you get `A client error (PermanentRedirect) occurred when calling the PutObject operation: The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint` use REGION_BUCKET var like this:
+
+```
+docker run -d \
+  --env AWS_ACCESS_KEY_ID=myaccesskeyid \
+  --env AWS_SECRET_ACCESS_KEY=mysecretaccesskey \
+  --env BUCKET=mybucketname \
+  --env BUCKET_REGION=mybucketregion \
   --env BACKUP_FOLDER=a/sub/folder/path/ \
   --env INIT_BACKUP=true \
   --link my_mongo_db:mongodb \
