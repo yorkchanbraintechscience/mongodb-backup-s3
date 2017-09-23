@@ -9,12 +9,6 @@ MONGODB_PASS=${MONGODB_PASS:-${MONGODB_ENV_MONGODB_PASS}}
 
 S3PATH="s3://$BUCKET/$BACKUP_FOLDER"
 
-if [ -n "${BUCKET_REGION}" ]; then
-  S3PATH="s3://$BUCKET/$BACKUP_FOLDER --region $BUCKET_REGION"
-else
-  S3PATH="s3://$BUCKET/$BACKUP_FOLDER"
-fi
-
 [[ ( -n "${BUCKET_REGION}" ) ]] && REGION_STR=" --region ${BUCKET_REGION}"
 
 [[ ( -z "${MONGODB_USER}" ) && ( -n "${MONGODB_PASS}" ) ]] && MONGODB_USER='admin'
